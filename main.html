@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GSM-7 Character Checker</title>
+<style>
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        font-size: 16px;
+    }
+    #box {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    #container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    #inputContainer{
+        position: relative;
+        width: 600px;
+        height: 400px;
+        margin: 0 20px;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+    }
+    #outputContainer {
+        width: 600px;
+        height: 400px;
+        margin: 0 20px;
+        overflow: auto;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+    }
+    #inputText, #output {
+        width: 100%;
+        height: 100%;
+        resize: none;
+        padding: 10px;
+        box-sizing: border-box;
+    }
+    #charCount {
+        position: absolute;
+        bottom: 5px;
+        right: 5px;
+        font-size: 1em;
+        color: gray;
+    }
+    .highlight {
+        background-color: red;
+        color: white;
+    }
+    #description {
+        text-align: center;
+        margin-bottom: 10px;
+    }
+    #summary {
+        text-align: left;
+        margin-bottom: 20px;
+    }  
+    
+    
+</style>
+</head>
+<body>
+    <div id="box">
+        <div id="description">
+            <h1>SMS Length Calculator</h1>
+        </div>
+        <div id="summary">
+            <table>
+                <tr>
+                    <td>Encoding</td>
+                    <td id="encodeValue">GSM7</td>
+                </tr>
+                <tr>
+                    <td>Part</td>
+                    <td id="partValue">0</td>
+                </tr>
+                <tr>
+                    <td>Character</td>
+                    <td id="charValue">0</td>
+                </tr>
+            </table>
+        </div>
+
+        <div id="container">
+            <div id="inputContainer">
+                <!-- <label id="inputTextLabel" for="inputText">Enter text:</label><br> -->
+                <textarea id="inputText" placeholder="Enter text here" oninput="checkGSM7()"></textarea>
+                <!-- <div id="charCount">Encoding: GSM7 &emsp;| &emsp;Part: 0 &emsp;| &emsp;Characters: 0&emsp;</div> -->
+            </div>
+            <div id="outputContainer">
+                <div id="output"></div>
+            </div>
+            
+        </div>
+    </div>
+    
+    <script>
+        function part(number, divisor) {
+            return Math.floor(number / divisor) + 1;
+        }
+        function checkGSM7() {
+            const input = document.getElementById('inputText').value;
+            const charCount = document.getElementById('charCount');
+            const gsm7Regex = /[^@£$¥èéùìòÇØøÅåΔ_ΦΓΛΩΠΨΣΘΞÆæßÉ!"#¤%&'()*+,-./:;<=>?¡\x00-\x7F]/g;
+            const divide = gsm7Regex.test(input)? 67 : 153;
+            const partVal = input.length==0? 0: part(input.length, divide);
+            const encode = divide==67? 'Unicode' : 'GSM7';
+            document.getElementById('encodeValue').innerHTML = encode;
+            document.getElementById('partValue').innerHTML = partVal;
+            document.getElementById('charValue').innerHTML = input.length;
+            // charCount.textContent = 'Encoding: ' + encode + '  |  Part: ' + partVal + '  |  Characters: ' + input.length;
+            
+            const highlightedText = input.replace(gsm7Regex, '<span class="highlight">$&</span>');
+            document.getElementById('output').innerHTML = highlightedText;
+            
+        }
+    </script>
+</body>
+</html>
