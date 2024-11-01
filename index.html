@@ -5,38 +5,48 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SMS Length Calculator</title>
 <style>
+    
     body {
+        flex:100%;
         display: flex;
         justify-content: center;
-        align-items: center;
         height: 100vh;
-        margin: 0;
         font-size: 16px;
     }
     #box {
+        flex:100%;
         display: flex;
         flex-direction: column;
         align-items: center;
+        width: -webkit-fill-available;
+        justify-content: center;
     }
     #container {
-        display: flex;
+        position: relative;
+        column-count:2;
+        margin-left:10%;
+        margin-right:10%;
+        width: -webkit-fill-available;
+        height:auto;
         justify-content: center;
         align-items: center;
+        column-gap: 5%;
     }
     #inputContainer{
         position: relative;
-        width: 600px;
+        width: 100%;
         height: 400px;
-        margin: 0 20px;
         border: 1px solid #ccc;
+        justify-content: center;
         box-sizing: border-box;
     }
     #outputContainer {
-        width: 600px;
+        position: relative;
+        width: 100%;
         height: 400px;
-        margin: 0 20px;
         overflow: auto;
         border: 1px solid #ccc;
+        justify-content: center;
         box-sizing: border-box;
     }
     #inputText, #output {
@@ -63,9 +73,31 @@
     }
     #summary {
         text-align: left;
-        margin-bottom: 20px;
+        margin-bottom: 30px;
     }  
+    table {
+        width: 100%;
+        max-width: 600px;
+        background-color: #f9f9f9;
+        border-collapse: collapse;
+    }
+    th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+    @media (max-width: 1200px) {
+        body {
+            flex-direction: column;
+            align-items: center;
+        }
+        .box {
+            width: calc(100% - 40px); 
+            margin-bottom: 20px;
+        }
+    }
     
+        
     
 </style>
 </head>
@@ -91,17 +123,15 @@
                 </tr>
             </table>
         </div>
-
         <div id="container">
-            <div id="inputContainer">
+            <div id="inputContainer" class="box left">
                 <!-- <label id="inputTextLabel" for="inputText">Enter text:</label><br> -->
                 <textarea id="inputText" placeholder="Enter text here" oninput="checkGSM7()"></textarea>
                 <!-- <div id="charCount">Encoding: GSM7 &emsp;| &emsp;Part: 0 &emsp;| &emsp;Characters: 0&emsp;</div> -->
             </div>
-            <div id="outputContainer">
+            <div id="outputContainer" class="box right">
                 <div id="output"></div>
             </div>
-            
         </div>
     </div>
     
